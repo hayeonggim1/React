@@ -17,13 +17,18 @@ const reaction = {
       }
     }
     // 자식 노드 추가
-    for(let child of children){
-      if(typeof child === 'string' || typeof child === 'number'){
+    for (let child of children) {
+      if (typeof child === "string" || typeof child === "number") {
         child = document.createTextNode(child);
-      }else if(typeof child === 'function'){
+      } else if (typeof child === "function") {
         child = child();
       }
-      elem.appendChild(child);
+
+      if(Array.isArray(child)){
+        child.forEach(c => elem.appendChild(c))
+      }else{
+        elem.appendChild(child);
+      }
     }
     // 요소 노드 반환
     return elem;

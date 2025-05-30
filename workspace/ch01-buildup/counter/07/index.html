@@ -13,9 +13,10 @@
 
     // 헤더 컴포넌트
     function Header(){
+      console.log('\tHeader 호출됨');
       return (
         Reaction.createElement('header', null, 
-          Reaction.createElement('h1', null, 'Counter - 06 UI 구성 요소를 각각의 함수로 분리(컴포넌트 만들기)'), 
+          Reaction.createElement('h1', null, 'Counter - 07. 데이터(상태) 변경시 자동으로 UI 리렌더링'), 
           Reaction.createElement('p', null, '파일 경로: ', 
             Reaction.createElement('span', { id: 'filepath' }, `ch${document.URL.split('/ch')[1]}index.html`)))
       );
@@ -23,30 +24,27 @@
 
     // Counter 컴포넌트
     function Counter(){
-      let count = 0;
+      console.log('\tCounter 호출됨');
+      // let count = 0;
+
+      const [count, setCount] = Reaction.useState(0);
 
       // 카운터 감소
       const handleDown = () => {
         // 데이터 갱신, count 값 감소
-        count--;
-        // 화면 갱신, count 값 화면에 표시
-        document.querySelector('#counter > span').textContent = count;
+        setCount(count - 1);
       };
 
       // 카운터 증가
       const handleUp = () => {
         // 데이터 갱신, count 값 증가
-        count++;
-        // 화면 갱신, count 값 화면에 표시
-        document.querySelector('#counter > span').textContent = count;
+        setCount(count + 1);
       };
 
       // 카운터 초기화
       const handleReset = event => {
         // 데이터 갱신, count 값 초기화
-        count = 0;
-        // 화면 갱신, count 값 화면에 표시
-        document.querySelector('#counter > span').textContent = count;
+        setCount(0);
       };
 
       return (
@@ -54,12 +52,13 @@
           Reaction.createElement('button', { type: 'button', onclick: handleDown }, '-'), 
           Reaction.createElement('button', { type: 'button', onclick: (event) => handleReset(event) }, 0), 
           Reaction.createElement('button', { type: 'button', onclick: handleUp }, '+'), 
-          Reaction.createElement('span', null, 0))
+          Reaction.createElement('span', null, count))
       );
     }
 
     // App 컴포넌트(어플리케이션의 시작점)
     function App(){
+      console.log('App 호출됨');
       return (
         Reaction.createElement('div', { id: 'app' }, Header, Counter)
       );
